@@ -187,8 +187,14 @@
       ret += '<li><a href="#" class="_hjFormFieldAttributeButton">Show fields (' + e.field_info.length + ')</a></li>';
       ret += '</ul>';
     });
-    if (hjSiteSettings.forms.length == 0) ret = 'No forms';
+    if (hjSiteSettings.forms.length == 0) {
+      ret = 'No forms';
+      showFormProblems();
+    }
     return ret;
+  };
+  var showFormProblems = function () {
+    return 'HELLO ROSS!';
   };
   var getPollInfo = function () {
     var ret = '';
