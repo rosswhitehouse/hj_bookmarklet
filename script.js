@@ -215,7 +215,7 @@
   var getHTMLErrorLink = function (type = '') {
     var doc = encodeURIComponent(window.location.href);
     var url = 'https://validator.w3.org/nu/?doc=' + doc
-    if (type) url += 'out=' + type;
+    if (type) url += '&out=' + type;
     return url;
   };
   var getPollInfo = function () {
