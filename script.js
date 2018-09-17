@@ -188,13 +188,35 @@
       ret += '</ul>';
     });
     if (hjSiteSettings.forms.length == 0) {
-      ret = 'No forms yet';
+      ret = 'No forms yet<br />';
       ret += showFormProblems();
     }
     return ret;
   };
   var showFormProblems = function () {
-    return 'HELLO ROSS!';
+    var ret = '';
+    ret += '<div>HTML Errors:<br />' +
+      'There are ' + getHTMLErrorCount() + ' errors on this page. <br />' +
+      '<a href="' + getHTMLErrorLink() + '">See errors here</a></div>'
+    return ret;
+  };
+  var getHTMLErrorCount = function () {
+    jQuery.ajax({
+      url: getHTMLErrorLink('json'),
+      type: 'GET',
+      success: function (res) {
+        return res.messages.length;
+      },
+      error: function () {
+        return 'unknown'
+      }
+    })
+  };
+  var getHTMLErrorLink = function (type = '') {
+    var doc = encodeURIComponent(window.location.href);
+    var url = 'https://validator.w3.org/nu/?doc=' + doc
+    if (type) url += 'out=' + type;
+    return url;
   };
   var getPollInfo = function () {
     var ret = '';
