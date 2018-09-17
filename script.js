@@ -196,8 +196,9 @@
   var showFormProblems = function () {
     var ret = '';
     ret += '<div>HTML Errors:<br />' +
-      'There are ' + getHTMLErrorCount() + ' errors on this page. <br />' +
-      '<a href="' + getHTMLErrorLink() + '">See errors here</a></div>'
+      'There are <div id="_hjErrorCount"></div> errors on this page. <br />' +
+      '<a href="' + getHTMLErrorLink() + '">See errors here</a></div>';
+    getHTMLErrorCount();
     return ret;
   };
   var getHTMLErrorCount = function () {
@@ -205,10 +206,10 @@
       url: getHTMLErrorLink('json'),
       type: 'GET',
       success: function (res) {
-        return res.messages.length;
+        jQuery('#_hjErrorCount').append(res.messages.length);
       },
       error: function () {
-        return 'unknown'
+        jQuery('#_hjErrorCount').append('unknown');
       }
     })
   };
