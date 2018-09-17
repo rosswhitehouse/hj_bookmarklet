@@ -195,9 +195,8 @@
   };
   var showFormProblems = function () {
     var ret = '';
-    ret += '<div>HTML Errors:<br />' +
-      'There are <span id="_hjErrorCount"></span> errors on this page. <br />' +
-      '<a href="' + getHTMLErrorLink() + '">See errors here</a></div>';
+    ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
+      'There are <span id="_hjErrorCount"></span> errors on this page.</div>';
     getHTMLErrorCount();
     return ret;
   };
@@ -207,6 +206,9 @@
       type: 'GET',
       success: function (res) {
         jQuery('#_hjErrorCount').append(res.messages.length);
+        if (res.messages.length > 0) {
+          jQuery('#_hjHTMLErrors').append(<a href="' + getHTMLErrorLink() + '">See errors here</a>);
+        }
       },
       error: function () {
         jQuery('#_hjErrorCount').append('unknown');
