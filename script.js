@@ -1,29 +1,5 @@
 (function () {
 
-  var _hjSettings = {
-    hjid: 1008215,
-    hjsv: 6
-  };
-  var hjSiteSettings = {
-    heatmaps: [],
-    record: false,
-    forms: [],
-    polls: [],
-    surveys: [],
-    testers_widgets: []
-  };
-  var hj = {};
-  hj.json = function () {
-    return {
-      parse: function (a) { return (JSON.parse || JSON.decode)(a) }, tryParse: function (a, b) { var c = !0; try { var d = (JSON.parse || JSON.decode)(a); b && b(d) } catch (e) { c = !1 } return c }, stringify: function (a, b, c) {
-        var d, e; if (void 0 !== a) return d = Array.prototype.toJSON, delete Array.prototype.toJSON, e = JSON.stringify || JSON.encode, a = ('"\u2028"' === e("\u2028") ? function (a, b, c) { return e(a, b, c).replace(/\u2028|\u2029/g, function (a) { return "\\u202" + ("\u2028" === a ? "8" : "9") }) } : e)(a, b, c), d && (Array.prototype.toJSON = d),
-          a
-      }
-    }
-  }(); var READABLE_COOKIES = { _hjOptOut: ["*"] }, WRITEABLE_COOKIES = { _hjOptOut: ["https://www.hotjar.com", "https://local.hotjar.com", "http://local.hotjar.com", "https://insights-staging.hotjar.com", "http://insights-staging.hotjar.com"] }; function allowCommand(a, b) { var c = ("_hjSet" === a.action ? WRITEABLE_COOKIES : "_hjGet" === a.action ? READABLE_COOKIES : [])[a.key]; return 0 <= c.indexOf("*") || 0 <= c.indexOf(b) } function getCookie(a) { return (a = RegExp("(?:^|; )" + a + "=([^;]*)").exec(document.cookie)) ? a[1] : void 0 }
-  function setCookie(a, b, c) { var d = new Date; d.setDate(d.getDate() + c); document.cookie = a + "=" + b + "; path=/; expires=" + d.toUTCString() } function onMessage(a) { hj.json.tryParse(a.data, function (b) { if (b.action) { if (!allowCommand(b, a.origin)) throw Error("Command " + b.action + " not allowed on cookie: " + b.key); switch (b.action) { case "_hjSet": setCookie(b.key, b.value, b.expiresDays); break; case "_hjGet": b = hj.json.stringify({ messageId: b.messageId, value: getCookie(b.key) || !1 }), window.parent.postMessage(b, "*") } } }) }
-  window.addEventListener ? window.addEventListener("message", onMessage, !1) : window.attachEvent("onmessage", onMessage);
-
   var v = "1.11.1", // the minimum version of jQuery we want
     numRefs = 0,
     refsLoaded = 0;
@@ -74,7 +50,6 @@
   }
 
   function initDebugger() {
-
     (window.myBookmarklet = function () {
       _hjSettings.hjdebug = true;
       jQuery('body').append(
@@ -88,14 +63,12 @@
         '       <li class="_hjDebuggerSection' + (hjSiteSettings.polls.length > 0 ? ' on' : '') + '" id="_hjDebuggerSectionPolls"><span>' + hjSiteSettings.polls.length + '</span></li>' +
         '       <li class="_hjDebuggerSection' + (hjSiteSettings.surveys.length > 0 ? ' on' : '') + '" id="_hjDebuggerSectionSurveys"><span>' + hjSiteSettings.surveys.length + '</span></li>' +
         '       <li class="_hjDebuggerSection' + (hjSiteSettings.testers_widgets.length > 0 ? ' on' : '') + '" id="_hjDebuggerSectionRecruiters"><span>' + hjSiteSettings.testers_widgets.length + '</span></li>' +
-        '       <li class="_hjDebuggerSection on" id="hjDebuggerSectionHTML">!</li>' +
         '   </ul><div class="_hjDebuggerTab open" id="_hjDebuggerTabHeatmaps">' + getHeatmapInfo() + '</div>' +
         '   <div class="_hjDebuggerTab" id="_hjDebuggerTabRecording">' + getRecordingInfo() + '</div>' +
         '   <div class="_hjDebuggerTab" id="_hjDebuggerTabForms">' + getFormInfo() + '</div>' +
         '   <div class="_hjDebuggerTab" id="_hjDebuggerTabPolls">' + getPollInfo() + '</div>' +
         '   <div class="_hjDebuggerTab" id="_hjDebuggerTabSurveys">' + getSurveyInfo() + '</div>' +
         '   <div class="_hjDebuggerTab" id="_hjDebuggerTabRecruiters">' + getTesterInfo() + '</div>' +
-        '   <div class="_hjDebuggerTab" id="_hjDebuggerTabHTML>' + getFormProblems() + '</div>' +
         '</div>'
       );
       setTimeout(function () {
@@ -285,24 +258,6 @@
     if (hjSiteSettings.testers_widgets.length == 0) ret = 'No recruiters';
     return ret;
   };
-  var getHTMLValidation = function () {
-    var encodedUrl = encodeURIComponent(window.location.href);
-    jQuery.ajax({
-      url: 'https://validator.w3.org/nu/?doc=' + encodedUrl + '&out=json',
-      type: 'GET',
-      success: function (res) {
-        var errors = '<ul>';
-        res.messages.forEach(function (message) {
-          list += '<li><h2>' + message.extract + '</h2><p>' + message.message + '</p></li>';
-        })
-        list += '</ul>';
-        return errors;
-      },
-      error: function (res) {
-        return '<p>Problem getting HTML Validation<br />' + res + '</p>';
-      }
-    })
-  }
 
   var displayTarget = function (target) {
     var ret = '<li><strong>Component</strong>' + target.component + '</li>' +
