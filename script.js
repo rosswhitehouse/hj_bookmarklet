@@ -196,7 +196,7 @@
   var showFormProblems = function () {
     var ret = '';
     ret += '<div>HTML Errors:<br />' +
-      'There are <div id="_hjErrorCount"></div> errors on this page. <br />' +
+      'There are <span id="_hjErrorCount"></span> errors on this page. <br />' +
       '<a href="' + getHTMLErrorLink() + '">See errors here</a></div>';
     getHTMLErrorCount();
     return ret;
