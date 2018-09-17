@@ -188,8 +188,7 @@
       ret += '</ul>';
     });
     if (hjSiteSettings.forms.length == 0) {
-      ret = 'No forms';
-      showFormProblems();
+      ret = 'No forms' + showFormProblems();
     }
     return ret;
   };
