@@ -188,7 +188,7 @@
       ret += '</ul>';
     });
     if (hjSiteSettings.forms.length == 0) {
-      ret = 'No forms';
+      ret = 'No forms yet';
       console.log(showFormProblems());
       showFormProblems();
     }
