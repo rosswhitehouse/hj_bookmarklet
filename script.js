@@ -207,7 +207,7 @@
       success: function (res) {
         jQuery('#_hjErrorCount').append(res.messages.length);
         if (res.messages.length > 0) {
-          jQuery('#_hjHTMLErrors').append(<a href="' + getHTMLErrorLink() + '">See errors here</a>);
+          jQuery('#_hjHTMLErrors').append('<a href="' + getHTMLErrorLink() + '">See errors here</a>');
         }
       },
       error: function () {
