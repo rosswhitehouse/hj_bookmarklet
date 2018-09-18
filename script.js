@@ -207,8 +207,8 @@
   var listForms = function () {
     var ret = '<ul>';
     jQuery('form').each(function () {
-      ret += '<li>ID: ' + jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none' + '<br />' +
-        'Class:' + jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none' + '</li>';
+      ret += '<li>ID: ' + jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none' + '<br />';
+      ret += 'Class:' + jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none' + '</li>';
     });
     ret += '</ul>';
     return ret;
