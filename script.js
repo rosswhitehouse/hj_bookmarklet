@@ -198,8 +198,9 @@
     ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
       'Errors on page: <span id="_hjErrorCount"></span></div>' +
       '<div>Forms on page: ' + jQuery('form').length + '</div>' +
-      listForms() +
-      '<div>Forms in original page source: ' + document.documentElement.outerHTML.match(/<form>/g) ? document.documentElement.outerHTML.match(/<form>/g).length : 0 + '</div>';
+      listForms();
+    var formsInHTML = document.documentElement.outerHTML.match(/<form>/g) ? document.documentElement.outerHTML.match(/<form>/g).length : 0;
+    ret += '<div>Forms in original page source: ' + formsInHTML + '</div>';
     getHTMLErrorCount();
     return ret;
   };
