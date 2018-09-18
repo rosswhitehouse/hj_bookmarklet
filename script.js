@@ -205,10 +205,12 @@
     return ret;
   };
   var listForms = function () {
+    var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
+    var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
     var ret = '<ul>';
     jQuery('form').each(function () {
-      ret += '<li>ID: ' + jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none' + '<br />';
-      ret += 'Class:' + jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none' + '</li>';
+      ret += '<li>ID: ' + showId + '<br />';
+      ret += 'Class:' + showClass + '</li>';
     });
     ret += '</ul>';
     return ret;
