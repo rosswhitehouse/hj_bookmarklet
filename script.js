@@ -205,7 +205,7 @@
   var listForms = function () {
     var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
     var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
-    var showInputs = JQuery(this).find('input').length;
+    var showInputs = jQuery(this).find('input').length;
     var ret = '<ul>';
     jQuery('form').each(function () {
       ret += '<li>';
