@@ -206,9 +206,9 @@
   };
   var listForms = function () {
     var ret = '<ul>';
-    jQuery('form').each(function (this) {
-      ret += '<li>ID: ' + this.attr('id') ? this.attr('id') : 'none' + '<br />' +
-        'Class:' + this.attr('class') ? this.attr('class') : 'none' + '</li>'
+    jQuery('form').each(function () {
+      ret += '<li>ID: ' + jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none' + '<br />' +
+        'Class:' + jQuery(this).attr('class') ? jQuery(this).attr('class') : 'none' + '</li>'
     })
     return ret;
   }
