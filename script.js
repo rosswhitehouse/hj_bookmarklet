@@ -198,7 +198,7 @@
     ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
       'Errors on page: <span id="_hjErrorCount"></span></div>' +
       '<ul>' +
-      '   <li>Forms on the page: ' + jQuery('form').length + '</li>' +
+      '   <li>Forms on page: ' + jQuery('form').length + '</li>' +
       '   <li>' + listForms() + '</li>' +
       '</ul>';
     getHTMLErrorCount();
@@ -208,8 +208,9 @@
     var ret = '<ul>';
     jQuery('form').each(function () {
       ret += '<li>ID: ' + jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none' + '<br />' +
-        'Class:' + jQuery(this).attr('class') ? jQuery(this).attr('class') : 'none' + '</li>'
-    })
+        'Class:' + jQuery(this).attr('class') ? jQuery(this).attr('class') : 'none' + '</li>';
+    });
+    ret += '</ul>';
     return ret;
   }
   var getHTMLErrorCount = function () {
