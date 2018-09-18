@@ -197,10 +197,8 @@
     var ret = '';
     ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
       'Errors on page: <span id="_hjErrorCount"></span></div>' +
-      '<ul>' +
-      '   <li>Forms on page: ' + jQuery('form').length + '</li>' +
-      '   <li>' + listForms() + '</li>' +
-      '</ul>';
+      '<div>Forms on page: ' + jQuery('form').length + '</div>' +
+      listForms();
     getHTMLErrorCount();
     return ret;
   };
