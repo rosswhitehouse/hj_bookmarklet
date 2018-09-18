@@ -208,7 +208,7 @@
     var ret = '<ul>';
     jQuery('form').each(function () {
       ret += '<li>ID: ' + jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none' + '<br />' +
-        'Class:' + jQuery(this).attr('class') ? jQuery(this).attr('class') : 'none' + '</li>';
+        'Class:' + jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none' + '</li>';
     });
     ret += '</ul>';
     return ret;
