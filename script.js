@@ -208,11 +208,11 @@
     var showInputs = jQuery(this).find('input').length;
     var ret = '<ul>';
     jQuery('form').each(function () {
-      ret += '<li>';
-      ret += 'ID: ' + showId + '<br />';
-      ret += 'Class: ' + showClass + '<br />';
-      ret += 'Inputs: ' + showInputs + '<br />';
-      ret += '</li>';
+      ret += '<li><ul>';
+      ret += '<li>ID: ' + showId + '</li>';
+      ret += '<li>Class: ' + showClass + '</li>';
+      ret += '<li>Inputs: ' + showInputs + '</li>';
+      ret += '</li></ul>';
     });
     ret += '</ul>';
     return ret;
