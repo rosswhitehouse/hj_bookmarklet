@@ -199,7 +199,7 @@
       'Errors on page: <span id="_hjErrorCount"></span></div>' +
       '<div>Forms on page: ' + jQuery('form').length + '</div>' +
       listForms() +
-      '<div>Forms in original page source: ' + document.documentElement.outerHTML.match(/<form>/g).length + '</div>';
+      '<div>Forms in original page source: ' + document.documentElement.outerHTML.match(/<form>/g) ? document.documentElement.outerHTML.match(/<form>/g).length : 0 + '</div>';
     getHTMLErrorCount();
     return ret;
   };
