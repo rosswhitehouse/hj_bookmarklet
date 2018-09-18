@@ -207,10 +207,14 @@
   var listForms = function () {
     var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
     var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
+    var showInputs = JQuery(this).find('input').length;
     var ret = '<ul>';
     jQuery('form').each(function () {
-      ret += '<li>ID: ' + showId + '<br />';
-      ret += 'Class:' + showClass + '</li>';
+      ret += '<li>';
+      ret += 'ID: ' + showId + '<br />';
+      ret += 'Class: ' + showClass + '<br />';
+      ret += 'Inputs: ' + showInputs + '<br />';
+      ret += '</li>';
     });
     ret += '</ul>';
     return ret;
