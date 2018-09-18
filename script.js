@@ -196,10 +196,22 @@
   var showFormProblems = function () {
     var ret = '';
     ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
-      'There are <span id="_hjErrorCount"></span> errors on this page.</div>';
+      'Errors on page: <span id="_hjErrorCount"></span></div>' +
+      '<ul>' +
+      '   <li>Forms on the page: ' + jQuery('form').length + '</li>' +
+      '   <li>' + listForms() + '</li>' +
+      '</ul>';
     getHTMLErrorCount();
     return ret;
   };
+  var listForms = function () {
+    var ret = '<ul>';
+    jQuery('form').each(function (this) {
+      ret += '<li>ID: ' + this.attr('id') ? this.attr('id') : 'none' + '<br />' +
+        'Class:' + this.attr('class') ? this.attr('class') : 'none' + '</li>'
+    })
+    return ret;
+  }
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
