@@ -203,11 +203,11 @@
     return ret;
   };
   var listForms = function () {
-    var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
-    var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
-    var showInputs = jQuery(this).find('input').length;
     var ret = '<ul>';
     jQuery('form').each(function () {
+      var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
+      var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
+      var showInputs = jQuery(this).find('input').length;
       ret += '<li><ul>';
       ret += '<li>ID: ' + showId + '</li>';
       ret += '<li>Class: ' + showClass + '</li>';
