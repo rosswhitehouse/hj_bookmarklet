@@ -175,7 +175,7 @@
     jQuery(hjSiteSettings.forms).each(function (i, e) {
       var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
       var selector = e.selector_type === 'id' ? '#' : '.';
-      var isPresent = selector + e.selector;
+      var isPresent = jQuery(selector + e.selector).length > 0 ? 'yes' : 'no';
       ret += '<ul>' +
         '<li><h4>Form ' + (i + 1) + '</h4></li>' +
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
