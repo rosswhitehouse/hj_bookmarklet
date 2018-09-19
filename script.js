@@ -186,7 +186,7 @@
       ret += ';"><strong>This page?</strong>' + isThisPage + '</li>';
       ret += '<li style="color: ';
       ret += isPresent === 'yes' ? 'green' : 'red'
-      ret += ';"><strong>Present?</strong>' + isPresent + '</li>';
+      ret += ';"><strong>Form on page?</strong>' + isPresent + '</li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
@@ -205,7 +205,7 @@
   var showFormProblems = function () {
     var ret = '';
     ret += '<ul><li><h4>HTML Errors</h4></li>' +
-      ' <li id="_hjHTMLErrors"><strong>Errors on page:</strong> <span id="_hjErrorCount"></span></li>' +
+      ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
       ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
       ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
       ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
