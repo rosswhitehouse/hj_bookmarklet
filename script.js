@@ -212,10 +212,10 @@
       var showInputs = jQuery(this).find('input').length;
       var hasInput = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
-      ret += '<li>ID: ' + showId + '</li>';
-      ret += '<li>Class: ' + showClass + '</li>';
-      ret += '<li>Inputs: ' + showInputs + '</li>';
-      ret += '<li>Submit button: ' + hasInput + '</li>';
+      ret += '<li><strong>ID:</strong> ' + showId + '</li>';
+      ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
+      ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
+      ret += '<li><strong>Submit button:</strong> ' + hasInput + '</li>';
       ret += '</li></ul>';
     });
     ret += '</ul>';
