@@ -199,6 +199,7 @@
       'Errors on page: <span id="_hjErrorCount"></span></div>' +
       '<div>Forms in original source: <span id="_hjSourceForms"></span></div>' +
       '<div>Forms on page: ' + jQuery('form').length + '</div>' +
+      '<div id="_hjJSFormError"></div>' +
       listForms();
     getHTMLErrorCount();
     return ret;
@@ -227,6 +228,9 @@
       success: function (res) {
         jQuery('#_hjErrorCount').append(res.messages.length);
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
+        if (jQuery('form').length > res.source.code.match(/<form/g).length) {
+          jQuery('#_hjJSFormError').append('Some forms on this page are rendered via Javascript!');
+        }
         if (res.messages.length > 0) {
           jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
         }
