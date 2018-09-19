@@ -173,11 +173,16 @@
   var getFormInfo = function () {
     var ret = '';
     jQuery(hjSiteSettings.forms).each(function (i, e) {
+      var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
+      var selector = e.selector_type === 'id' ? '#' : '.';
+      var isPresent = selector + e.selector;
       ret += '<ul>' +
         '<li><h4>Form ' + (i + 1) + '</h4></li>' +
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
         '<li><strong>Sel. type</strong>' + e.selector_type + '</li>' +
         displayTarget(e.targeting[0]);
+      ret += '<li><strong>This page?</strong>' + isThisPage + '</li>' +
+        '<li><strong>Present?</strong>' + isPresent + '</li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
