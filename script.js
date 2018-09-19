@@ -196,10 +196,10 @@
   var showFormProblems = function () {
     var ret = '';
     ret += '<div id="_hjHTMLErrors"><h4>HTML Errors:</h4><br />' +
-      'Errors on page: <span id="_hjErrorCount"></span></div>' +
-      '<div>Forms in original source: <span id="_hjSourceForms"></span></div>' +
-      '<div>Forms on page: ' + jQuery('form').length + '</div>' +
-      '<div id="_hjJSFormError" style="color: red; line-height: 1em;"></div>' +
+      '<p>Errors on page: <span id="_hjErrorCount"></span></p></div>' +
+      '<p>Forms in original source: <span id="_hjSourceForms"></span></p>' +
+      '<p>Forms on page: ' + jQuery('form').length + '</p>' +
+      '<p id="_hjJSFormError" style="color: red; line-height: 1em;"></p>' +
       listForms();
     getHTMLErrorCount();
     return ret;
