@@ -189,8 +189,8 @@
     });
     if (hjSiteSettings.forms.length == 0) {
       ret = 'No forms yet<br />';
-      ret += showFormProblems();
     }
+    ret += showFormProblems();
     return ret;
   };
   var showFormProblems = function () {
