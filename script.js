@@ -197,8 +197,8 @@
     var ret = '';
     ret += '<ul><li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors on page:</strong> <span id="_hjErrorCount"></span></li>' +
-      ' <li><strong>Forms in original source:</strong> <span id="_hjSourceForms"></span></li>' +
-      ' <li><strong>Forms on page:</strong> ' + jQuery('form').length + '</li>' +
+      ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
+      ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
       ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
       '</ul>' +
       listForms();
@@ -206,7 +206,7 @@
     return ret;
   };
   var listForms = function () {
-    var ret = '<ul>';
+    var ret = '<ul><li><h4>Page forms</h4></li>';
     jQuery('form').each(function () {
       var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
       var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
