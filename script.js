@@ -195,11 +195,12 @@
   };
   var showFormProblems = function () {
     var ret = '';
-    ret += '<div id="_hjHTMLErrors"><h4>HTML Errors:</h4><br />' +
-      '<p>Errors on page: <span id="_hjErrorCount"></span></p></div>' +
-      '<p>Forms in original source: <span id="_hjSourceForms"></span></p>' +
-      '<p>Forms on page: ' + jQuery('form').length + '</p>' +
-      '<p id="_hjJSFormError" style="color: red; line-height: 1em;"></p>' +
+    ret += '<ul><li><h4>HTML Errors</h4></li>' +
+      ' <li id="_hjHTMLErrors"><strong>Errors on page:</strong> <span id="_hjErrorCount"></span></li>' +
+      ' <li><strong>Forms in original source:</strong> <span id="_hjSourceForms"></span></li>' +
+      ' <li><strong>Forms on page:</strong> ' + jQuery('form').length + '</li>' +
+      ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
+      '</ul>' +
       listForms();
     getHTMLErrorCount();
     return ret;
