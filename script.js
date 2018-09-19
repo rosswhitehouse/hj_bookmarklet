@@ -181,8 +181,10 @@
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
         '<li><strong>Sel. type</strong>' + e.selector_type + '</li>' +
         displayTarget(e.targeting[0]);
-      ret += '<li style="color: ' + isThisPage === 'yes' ? 'green' : 'red' + '"><strong>This page?</strong>' + isThisPage + '</li>' +
-        '<li style="color: ' + isPresent === 'yes' ? 'green' : 'red' + '"><strong>Present?</strong>' + isPresent + '</li>';
+      ret += '<li style="color: ';
+      ret += isThisPage === 'yes' ? 'green' : 'red'
+      ret += ';"><strong>This page?</strong>' + isThisPage + '</li>' +
+        '<li style="color: ' + isPresent === 'yes' ? 'green' : 'red' + ';"><strong>Present?</strong>' + isPresent + '</li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
