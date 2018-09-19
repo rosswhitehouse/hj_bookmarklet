@@ -195,7 +195,7 @@
   };
   var showFormProblems = function () {
     var ret = '';
-    ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
+    ret += '<div id="_hjHTMLErrors"><h4>HTML Errors:</h4><br />' +
       'Errors on page: <span id="_hjErrorCount"></span></div>' +
       '<div>Forms in original source: <span id="_hjSourceForms"></span></div>' +
       '<div>Forms on page: ' + jQuery('form').length + '</div>' +
