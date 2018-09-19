@@ -182,7 +182,7 @@
         '<li><strong>Sel. type</strong>' + e.selector_type + '</li>' +
         displayTarget(e.targeting[0]);
       ret += '<li style="color: ';
-      ret += isThisPage === 'yes' ? 'green' : 'red'
+      ret += isThisPage === 'yes' ? 'green' : 'red';
       ret += ';"><strong>This page?</strong>' + isThisPage + '</li>' +
         '<li style="color: ' + isPresent === 'yes' ? 'green' : 'red' + ';"><strong>Present?</strong>' + isPresent + '</li>';
       jQuery(e.field_info).each(function (fi, fe) {
