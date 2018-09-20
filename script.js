@@ -259,19 +259,29 @@
     })
     jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
   }
+
+  var checkSourceForForm = function (form, source) {
+    console.log(form, source);
+  }
+
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
       type: 'GET',
       success: function (res) {
+        // HTML errors
         jQuery('#_hjErrorCount').append(res.messages.length);
         showKnownIssues(res.messages);
+        if (res.messages.length > 0) {
+          jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
+        }
+        // forms added by JS
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
-        }
-        if (res.messages.length > 0) {
-          jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
+          jQuery('form').each(function (form) {
+            checkSourceForForm(form, res.source.code);
+          })
         }
       },
       error: function () {
