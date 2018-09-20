@@ -186,7 +186,7 @@
           selector = selector.substr(2);
           break;
       }
-      var isPresent = jQuery(selector + e.selector).length > 0 ? 'yes' : 'no';
+      var isPresent = jQuery(selector).length > 0 ? 'yes' : 'no';
       ret += '<ul>' +
         '<li><h4>Form ' + (i + 1) + '</h4></li>' +
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
