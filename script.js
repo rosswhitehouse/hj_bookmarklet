@@ -225,12 +225,13 @@
   };
   var listForms = function () {
     var ret = '<ul><li><h4>Page forms</h4></li>';
-    jQuery('form').each(function () {
+    jQuery('form').each(function (n) {
       var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
       var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
       var showInputs = jQuery(this).find('input').length;
       var hasInput = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
+      ret += '<li><h5>Form ' + n + '</h5></li>';
       ret += '<li><strong>ID:</strong> ' + showId + '</li>';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
@@ -265,7 +266,7 @@
       var className = form[0].className !== '' ? form[0].className : 'none';
       var children = form[0].childElementCount;
       var ret = '<li><ul>' +
-        ' <li><h5>Form ' + (jQuery('#_hjErrorShowMore ul li').length + 1) + '</h5></li>' +
+        ' <li><h5>JS Form ' + (jQuery('#_hjErrorShowMore ul li').length + 1) + '</h5></li>' +
         ' <li><strong>ID:</strong>' + id + '</li>' +
         ' <li><strong>Class:</strong>' + className + '</li>' +
         ' <li><strong>Children:</strong>' + children + '</li>' +
