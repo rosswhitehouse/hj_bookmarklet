@@ -261,10 +261,14 @@
     var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     if (!sourceStripped.includes(formStripped)) {
-      var ret = '<li>';
-      var html = document.createTextNode(form[0].outerHTML + '');
-      ret += html.nodeValue;
-      ret += '</li>';
+      var id = form[0].id !== '' ? form[0].id : 'none';
+      var className = form[0].className !== '' ? form[0].className : 'none';
+      var children = form[0].childElementCount;
+      var ret = '<li><ul>' +
+        ' <li><strong>ID:</strong>' + id + '</li>' +
+        ' <li><strong>Class:</strong>' + className + '</li>' +
+        ' <li><strong>Children:</strong>' + children + '</li>' +
+        '</ul></li>';
       jQuery('#_hjErrorShowMore ul').append(ret);
     }
   }
