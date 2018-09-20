@@ -122,6 +122,19 @@
           }
 
         })
+
+        jQuery('._hjButton').click(function (e) {
+          e.preventDefault();
+          var data = jQuery(this).data('formid');
+          if (jQuery(this).text().indexOf('Show') >= 0) {
+            jQuery(this).parents('ul').find('._hjSlide[data-formid=' + data + ']').slideDown('fast');
+            jQuery(this).text(jQuery(this).text().replace('Show', 'Hide'));
+          } else {
+            jQuery(this).parents('ul').find('._hjSlide[data-formid=' + data + ']').slideUp('fast');
+            jQuery(this).text(jQuery(this).text().replace('Hide', 'Show'));
+          }
+
+        })
       }, 10);
 
     })();
@@ -192,12 +205,12 @@
       ret += '<li style="color: ';
       ret += isThisPage === 'yes' ? 'green' : 'red';
       ret += ';"><strong>Correct Page</strong>' + isThisPage + '</li>';
-      ret += '<li class="_hjFormFieldAttribute">This shows that the current page is the page that this form should be present on</li>';
+      ret += '<li class="_hjSlide" data-formid="tooltip">This shows that the current page is the page that this form should be present on</li>';
       ret += '<li style="color: ';
       ret += isPresent === 'yes' ? 'green' : 'red'
       ret += ';"><strong>Form is present</strong>' + isPresent + '</li>';
-      ret += '<li class="_hjFormFieldAttribute">This shows whether this form is present on the page</li>';
-      ret += '<li><a href="#" class="_hjFormFieldAttributeButton">show info</a></li>';
+      ret += '<li class="_hjSlide" data-formid="tooltip">This shows whether this form is present on the page</li>';
+      ret += '<li><a href="#" class="_hjButton" data-formid="tooltip">show info</a></li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
