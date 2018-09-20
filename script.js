@@ -263,7 +263,7 @@
     if (!sourceStripped.includes(formStripped)) {
       var ret = '<li>';
       var html = document.createTextNode(form[0].outerHTML + '');
-      ret += html;
+      ret += html.nodeValue;
       ret += '</li>';
       jQuery('#_hjErrorShowMore ul').append(ret);
     }
