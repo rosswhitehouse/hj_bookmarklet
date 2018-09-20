@@ -258,7 +258,7 @@
   }
 
   var checkSourceForForm = function (form, source) {
-    if (source.includes(form)) {
+    if (source.includes(form.context.outerHTML)) {
       console.log('this form is in source');
     }
   }
