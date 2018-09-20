@@ -251,7 +251,7 @@
       ret += '<li><strong>ID:</strong> ' + showId + '</li>';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
-      ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has a submit input</li>' : '<li style="color: red;">This form doesn\'t have a submit input. It may submit with Javascript!</li>';
+      ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has an input of type submit</li>' : '<li style="color: red;">This form doesn\'t have an input of type submit. It may submit with Javascript!</li>';
       ret += '</li></ul>';
     });
     ret += '</ul>';
