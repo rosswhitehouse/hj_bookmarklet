@@ -177,10 +177,10 @@
       var selector = e.selector;
       switch (e.selector) {
         case 'id':
-          selector.prepend('#');
+          selector = '#' + selector;
           break;
         case 'class':
-          selector.prepend('.');
+          selector = '.' + selector;
           break;
         case 'css':
           selector = selector.substr(2);
