@@ -175,7 +175,7 @@
     jQuery(hjSiteSettings.forms).each(function (i, e) {
       var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
       var selector = e.selector;
-      switch (e.selector) {
+      switch (e.selector_type) {
         case 'id':
           selector = '#' + selector;
           break;
