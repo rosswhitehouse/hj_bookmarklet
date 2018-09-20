@@ -206,6 +206,7 @@
     var ret = '';
     ret += '<ul><li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
+      // ' <li><strong>Known issues:</strong>' + countKnownIssues + '</li>' +
       ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
       ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
       ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
@@ -231,12 +232,26 @@
     ret += '</ul>';
     return ret;
   }
+  var knownIssues = [
+    'Duplicate ID',
+    'unclosed elements',
+    'Stray end tag'
+  ];
+  var showKnownIssues = function (errors) {
+    var knownIssuesPresent = errors.map(function (error) {
+      knownIssues.forEach(function (issue) {
+        return error.includes(issue);
+      })
+    })
+    console.log(knownIssuesPresent);
+  }
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
       type: 'GET',
       success: function (res) {
         jQuery('#_hjErrorCount').append(res.messages.length);
+        showKnownIssues(res.messages);
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
