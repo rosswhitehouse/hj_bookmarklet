@@ -261,7 +261,7 @@
     var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     if (!sourceStripped.includes(formStripped)) {
-      jQuery('_hjJSFormError').append('<li>' + form[0].outerHTML + '</li>');
+      jQuery('_hjErrorShowMore ul').append('<li>' + form[0].outerHTML + '</li>');
     }
   }
 
@@ -281,11 +281,10 @@
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
           jQuery('#_hjJSFormError').after('<li id="#_hjErrorShowMore"><a href="#" class="_hjFormFieldAttributeButton">Show JS-loaded forms</a></li>');
-          jQuery('#_hjErrorShowMore').append('<ul class="_hjFormFieldAttribute" style="display: none;">');
+          jQuery('#_hjErrorShowMore').append('<ul class="_hjFormFieldAttribute" style="display: none;"></ul>');
           jQuery('form').each(function () {
             checkSourceForForm(jQuery(this), res.source.code);
           })
-          jQuery('#_hjJSFormError').append('</ul>');
         }
       },
       error: function () {
