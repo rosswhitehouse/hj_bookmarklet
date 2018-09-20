@@ -258,7 +258,7 @@
   }
 
   var checkSourceForForm = function (form, source) {
-    console.log(form, source);
+    console.log('in function: ', form, source);
   }
 
   var getHTMLErrorCount = function () {
@@ -277,6 +277,7 @@
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
           jQuery('form').each(function () {
+            console.log('each', jQuery(this))
             checkSourceForForm(jQuery(this), res.source.code);
           })
         }
