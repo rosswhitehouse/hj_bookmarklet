@@ -281,9 +281,6 @@
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
           jQuery('#_hjJSFormError').after('<li class="_hjFormFieldAttributeButton"><a href="#">Show JS-loaded forms</a></li>');
-          jQuery('#_hjErrorShowMore').click(function () {
-            jQuery(this).find('ul').show();
-          })
           jQuery('#_hjErrorShowMore').append('<ul class="_hjFormFieldAttribute" style="display: none;">');
           jQuery('form').each(function () {
             checkSourceForForm(jQuery(this), res.source.code);
