@@ -288,7 +288,8 @@
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           var ret = jQuery('form').length - res.source.code.match(/<form/g).length;
-          ret += 'forms on this page aren\'t in the source. They may be rendered via Javascript!';
+          var formWord = ret === 1 ? 'form' : 'forms';
+          ret += ' ' + formWord + ' on this page aren\'t in the source. They may be rendered via Javascript!';
           jQuery('#_hjJSFormError').append(ret);
           jQuery('#_hjJSFormError').after('<li id="_hjErrorShowMore"><a href="#">Show JS-loaded forms</a></li>');
           jQuery('#_hjErrorShowMore').prepend('<ul style="display: none;"></ul>');
