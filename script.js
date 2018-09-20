@@ -260,8 +260,9 @@
   var checkSourceForForm = function (form, source) {
     var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     var formStripped = form.context.outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
-    if (sourceStripped.includes(formStripped)) {
-      console.log('this form is in source');
+    if (!sourceStripped.includes(formStripped)) {
+      console.log('this form isn\'t in source');
+      console.log(form);
     }
   }
 
