@@ -285,10 +285,10 @@
           jQuery('#_hjErrorShowMore a').click(function (e) {
             e.preventDefault();
             if (jQuery(this).text().indexOf('Show') >= 0) {
-              jQuery(this).parents('ul').find('._hjFormFieldAttribute').slideDown('fast');
+              jQuery(this).parents('li').find('ul').slideDown('fast');
               jQuery(this).text(jQuery(this).text().replace('Show', 'Hide'));
             } else {
-              jQuery(this).parents('ul').find('._hjFormFieldAttribute').slideUp('fast');
+              jQuery(this).parents('li').find('ul').slideUp('fast');
               jQuery(this).text(jQuery(this).text().replace('Hide', 'Show'));
             }
           })
