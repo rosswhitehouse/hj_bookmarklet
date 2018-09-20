@@ -239,8 +239,11 @@
   ];
   var showKnownIssues = function (errors) {
     var knownIssuesPresent = errors.map(function (error) {
-      knownIssues.forEach(function (issue) {
-        return error.message.includes(issue);
+      return knownIssues.forEach(function (issue) {
+        // return error.message.includes(issue);
+        if (erros.message.includes(issue)) {
+          return error.message;
+        }
       })
     })
     console.log(knownIssuesPresent);
