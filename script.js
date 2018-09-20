@@ -214,8 +214,6 @@
     var ret = '';
     ret += '<ul>' +
       ' <li><h4>Forms Loaded with Javascript</h4></li>' +
-      ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
-      ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
       ' <li id="_hjJSFormError" style="color: red;"></li>' +
       ' <li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
@@ -289,7 +287,9 @@
         // forms added by JS
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
-          jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
+          var ret = jQuery('form').length - res.source.code.match(/<form/g).length;
+          ret += 'forms on this page aren\'t in the source. They may be rendered via Javascript!';
+          jQuery('#_hjJSFormError').append(ret);
           jQuery('#_hjJSFormError').after('<li id="_hjErrorShowMore"><a href="#">Show JS-loaded forms</a></li>');
           jQuery('#_hjErrorShowMore').prepend('<ul style="display: none;"></ul>');
           jQuery('#_hjErrorShowMore a').click(function (e) {
