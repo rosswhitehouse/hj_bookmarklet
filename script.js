@@ -261,7 +261,7 @@
     var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     if (!sourceStripped.includes(formStripped)) {
-      jQuery('#_hjErrorShowMore ul').append('<li>' + form[0].outerHTML + '</li>');
+      jQuery('#_hjErrorShowMore ul').append('<li>' + form[0].outerHTML.toString() + '</li>');
     }
   }
 
