@@ -175,12 +175,16 @@
     jQuery(hjSiteSettings.forms).each(function (i, e) {
       var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
       var selector = e.selector;
-      if (e.selector_type === 'id') {
-        selector.prepend('#');
-      } else if (e.selector_type === 'class') {
-        selector.prepend('.');
-      } else if (e.selector_type === 'css') {
-        selector = selector.substr(2)
+      switch (e.selector) {
+        case 'id':
+          selector.prepend('#');
+          break;
+        case 'class':
+          selector.prepend('.');
+          break;
+        case 'css':
+          selector = selector.substr(2);
+          break;
       }
       var isPresent = jQuery(selector + e.selector).length > 0 ? 'yes' : 'no';
       ret += '<ul>' +
