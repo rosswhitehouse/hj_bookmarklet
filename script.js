@@ -195,7 +195,8 @@
       ret += '<li class="_hjFormFieldAttribute">This shows that the current page is the page that this form should be present on</li>';
       ret += '<li style="color: ';
       ret += isPresent === 'yes' ? 'green' : 'red'
-      ret += ';"><strong>Form on page?</strong>' + isPresent + '</li>';
+      ret += ';"><strong>Form is present</strong>' + isPresent + '</li>';
+      ret += '<li class="_hjFormFieldAttribute"> This shows whether this form is present on the page</li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
