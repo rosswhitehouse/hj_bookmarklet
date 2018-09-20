@@ -231,7 +231,7 @@
       var showInputs = jQuery(this).find('input').length;
       var hasInput = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
-      ret += '<li><h5>Form ' + n + '</h5></li>';
+      ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
       ret += '<li><strong>ID:</strong> ' + showId + '</li>';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
