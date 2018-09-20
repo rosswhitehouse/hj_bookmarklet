@@ -238,11 +238,11 @@
     'Stray end tag'
   ];
   var showKnownIssues = function (errors) {
-    var knownIssuesPresent = errors.map(function (error) {
-      return knownIssues.forEach(function (issue) {
-        // return error.message.includes(issue);
+    var knownIssuesPresent = [];
+    errors.forEach(function (error) {
+      knownIssues.forEach(function (issue) {
         if (error.message.includes(issue)) {
-          return error.message;
+          knownIssuesPresent.push(error.message);
         }
       })
     })
