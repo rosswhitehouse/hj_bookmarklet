@@ -257,7 +257,7 @@
     jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
   }
 
-  var checkSourceForForm = function (form, n, source) {
+  var checkSourceForForm = function (form, source) {
     var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     if (!sourceStripped.includes(formStripped)) {
@@ -265,7 +265,7 @@
       var className = form[0].className !== '' ? form[0].className : 'none';
       var children = form[0].childElementCount;
       var ret = '<li><ul>' +
-        ' <li><h5>Form ' + (n + 1) + '</h5></li>' +
+        ' <li><h5>Form ' + (jQuery('#_hjErrorShowMore ul li').length + 1) + '</h5></li>' +
         ' <li><strong>ID:</strong>' + id + '</li>' +
         ' <li><strong>Class:</strong>' + className + '</li>' +
         ' <li><strong>Children:</strong>' + children + '</li>' +
@@ -310,7 +310,7 @@
             }
           })
           jQuery('form').each(function (n) {
-            checkSourceForForm(jQuery(this), n, res.source.code);
+            checkSourceForForm(jQuery(this), res.source.code);
           })
         }
       },
