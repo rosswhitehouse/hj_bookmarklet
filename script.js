@@ -258,7 +258,6 @@
   }
 
   var checkSourceForForm = function (form, source) {
-    // console.log('in function: ', form, source);
     if (source.includes(form)) {
       console.log('this form is in source');
     }
