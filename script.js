@@ -205,12 +205,12 @@
       ret += '<li style="color: ';
       ret += isThisPage === 'yes' ? 'green' : 'red';
       ret += ';"><strong>Correct Page</strong>' + isThisPage + '</li>';
-      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none;">This shows that the current page is the page that this form should be present on</li>';
+      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none; font-weight: bold; color: orange;">This shows that the current page is the page that this form should be present on</li>';
       ret += '<li style="color: ';
       ret += isPresent === 'yes' ? 'green' : 'red'
       ret += ';"><strong>Form is present</strong>' + isPresent + '</li>';
-      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none;">This shows whether this form is present on the page</li>';
-      ret += '<li><a href="#" class="_hjButton" data-formid="tooltip">Show info</a></li>';
+      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none; font-weight: bold; color: orange;">This shows whether this form is present on the page</li>';
+      ret += '<li><a href="#" class="_hjButton" data-formid="tooltip">Show help text</a></li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
