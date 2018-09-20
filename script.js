@@ -276,8 +276,8 @@
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
-          jQuery('form').each(function (form) {
-            checkSourceForForm(form, res.source.code);
+          jQuery('form').each(function () {
+            checkSourceForForm(jQuery(this), res.source.code);
           })
         }
       },
