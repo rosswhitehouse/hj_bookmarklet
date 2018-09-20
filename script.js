@@ -216,7 +216,7 @@
       ' <li><h4>Forms Loaded with Javascript</h4></li>' +
       ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
       ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
-      ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
+      ' <li id="_hjJSFormError" style="color: red;"></li>' +
       ' <li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
       ' <li id="_hjKnownIssues"><h3 id="_hjKnownIssuesCount"></h4></li>' +
