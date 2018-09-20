@@ -265,7 +265,7 @@
       var className = form[0].className !== '' ? form[0].className : 'none';
       var children = form[0].childElementCount;
       var ret = '<li><ul>' +
-        ' <li><h5>Form </h5>' + (n + 1) + '</li>' +
+        ' <li><h5>Form ' + (n + 1) + '</h5></li>' +
         ' <li><strong>ID:</strong>' + id + '</li>' +
         ' <li><strong>Class:</strong>' + className + '</li>' +
         ' <li><strong>Children:</strong>' + children + '</li>' +
