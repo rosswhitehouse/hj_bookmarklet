@@ -262,7 +262,7 @@
     var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     if (!sourceStripped.includes(formStripped)) {
       var ret = '<li>';
-      var html = form[0].outerHTML + '';
+      var html = document.createTextNode(form[0].outerHTML + '');
       ret += html;
       ret += '</li>';
       jQuery('#_hjErrorShowMore ul').append(ret);
