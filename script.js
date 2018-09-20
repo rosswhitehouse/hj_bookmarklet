@@ -240,7 +240,7 @@
   var showKnownIssues = function (errors) {
     var knownIssuesPresent = errors.map(function (error) {
       knownIssues.forEach(function (issue) {
-        return error.includes(issue);
+        return error.message.includes(issue);
       })
     })
     console.log(knownIssuesPresent);
