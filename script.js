@@ -289,7 +289,7 @@
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
           jQuery('#_hjJSFormError').after('<li id="_hjErrorShowMore"><a href="#">Show JS-loaded forms</a></li>');
-          jQuery('#_hjErrorShowMore').append('<ul style="display: none;"></ul>');
+          jQuery('#_hjErrorShowMore').prepend('<ul style="display: none;"></ul>');
           jQuery('#_hjErrorShowMore a').click(function (e) {
             e.preventDefault();
             if (jQuery(this).text().indexOf('Show') >= 0) {
