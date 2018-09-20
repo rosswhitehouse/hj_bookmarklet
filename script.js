@@ -241,7 +241,7 @@
     var knownIssuesPresent = errors.map(function (error) {
       return knownIssues.forEach(function (issue) {
         // return error.message.includes(issue);
-        if (erros.message.includes(issue)) {
+        if (error.message.includes(issue)) {
           return error.message;
         }
       })
