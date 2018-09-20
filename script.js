@@ -245,13 +245,13 @@
       var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
       var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
       var showInputs = jQuery(this).find('input').length;
-      var hasInput = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
+      var hasSubmit = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
       ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
       ret += '<li><strong>ID:</strong> ' + showId + '</li>';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
-      ret += '<li><strong>Submit button:</strong> ' + hasInput + '</li>';
+      ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has a submit input</li>' : '<li style="color: red;">This form doesn/t have a submit input. It may submit with Javascript!</li>';
       ret += '</li></ul>';
     });
     ret += '</ul>';
