@@ -174,7 +174,14 @@
     var ret = '';
     jQuery(hjSiteSettings.forms).each(function (i, e) {
       var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
-      var selector = e.selector_type === 'id' ? '#' : '.';
+      var selector = e.selector;
+      if (e.selector_type === 'id') {
+        selector.prepend('#');
+      } else if (e.selector_type === 'class') {
+        selector.prepend('.');
+      } else if (e.selector_type === 'css') {
+        selector = selector.substr(2)
+      }
       var isPresent = jQuery(selector + e.selector).length > 0 ? 'yes' : 'no';
       ret += '<ul>' +
         '<li><h4>Form ' + (i + 1) + '</h4></li>' +
@@ -206,7 +213,7 @@
     var ret = '';
     ret += '<ul><li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
-      // ' <li><strong>Known issues:</strong>' + countKnownIssues + '</li>' +
+      ' <li id="_hjKnownIssues"><h4 id="_hjKnownIssuesCount"></h4></li>' +
       ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
       ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
       ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
@@ -246,7 +253,7 @@
         }
       })
     })
-    console.log(knownIssuesPresent);
+    jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
   }
   var getHTMLErrorCount = function () {
     jQuery.ajax({
