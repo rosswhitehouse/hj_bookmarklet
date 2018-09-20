@@ -179,9 +179,6 @@
         case 'id':
           selector = '#' + selector;
           break;
-        case 'class':
-          selector = '.' + selector;
-          break;
         case 'css':
           selector = selector.substr(2);
           break;
