@@ -195,20 +195,42 @@
   };
   var showFormProblems = function () {
     var ret = '';
-    ret += '<div>HTML Errors:<br />' +
-      'There are ' + getHTMLErrorCount() + ' errors on this page. <br />' +
-      '<a href="' + getHTMLErrorLink() + '">See errors here</a></div>'
+    ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
+      'Errors on page: <span id="_hjErrorCount"></span></div>' +
+      '<div>Forms on page: ' + jQuery('form').length + '</div>' +
+      listForms();
+    var formsInHTML = document.documentElement.outerHTML.match(/<form>/g) ? document.documentElement.outerHTML.match(/<form>/g).length : 0;
+    ret += '<div>Forms in original page source: ' + formsInHTML + '</div>';
+    getHTMLErrorCount();
     return ret;
   };
+  var listForms = function () {
+    var ret = '<ul>';
+    jQuery('form').each(function () {
+      var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
+      var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
+      var showInputs = jQuery(this).find('input').length;
+      ret += '<li><ul>';
+      ret += '<li>ID: ' + showId + '</li>';
+      ret += '<li>Class: ' + showClass + '</li>';
+      ret += '<li>Inputs: ' + showInputs + '</li>';
+      ret += '</li></ul>';
+    });
+    ret += '</ul>';
+    return ret;
+  }
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
       type: 'GET',
       success: function (res) {
-        return res.messages.length;
+        jQuery('#_hjErrorCount').append(res.messages.length);
+        if (res.messages.length > 0) {
+          jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
+        }
       },
       error: function () {
-        return 'unknown'
+        jQuery('#_hjErrorCount').append('unknown');
       }
     })
   };
