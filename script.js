@@ -219,11 +219,11 @@
 
       ret += '<li><a href="#" class="_hjFormFieldAttributeButton">Show fields (' + e.field_info.length + ')</a></li>';
       ret += '</ul>';
-      ret += '<hr />';
     });
     if (hjSiteSettings.forms.length == 0) {
       ret = 'No forms yet<br />';
     }
+    ret += '<hr />';
     ret += showFormProblems();
     return ret;
   };
