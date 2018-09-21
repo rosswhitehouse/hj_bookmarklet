@@ -174,8 +174,19 @@
     var ret = '';
     jQuery(hjSiteSettings.forms).each(function (i, e) {
       var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
-      var selector = e.selector_type === 'id' ? '#' : '.';
-      var isPresent = jQuery(selector + e.selector).length > 0 ? 'yes' : 'no';
+      var selector = e.selector;
+      switch (e.selector_type) {
+        case 'id':
+          selector = '#' + selector;
+          break;
+        case 'class':
+          selector = '.' + selector;
+          break;
+        case 'css':
+          selector = selector.substr(2);
+          break;
+      }
+      var isPresent = jQuery(selector).length > 0 ? 'yes' : 'no';
       ret += '<ul>' +
         '<li><h4>Form ' + (i + 1) + '</h4></li>' +
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
@@ -206,6 +217,7 @@
     var ret = '';
     ret += '<ul><li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
+      ' <li id="_hjKnownIssues"><h4 id="_hjKnownIssuesCount"></h4></li>' +
       ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
       ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
       ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
@@ -231,12 +243,29 @@
     ret += '</ul>';
     return ret;
   }
+  var knownIssues = [
+    'Duplicate ID',
+    'unclosed elements',
+    'Stray end tag'
+  ];
+  var showKnownIssues = function (errors) {
+    var knownIssuesPresent = [];
+    errors.forEach(function (error) {
+      knownIssues.forEach(function (issue) {
+        if (error.message.includes(issue)) {
+          knownIssuesPresent.push(error.message);
+        }
+      })
+    })
+    jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
+  }
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
       type: 'GET',
       success: function (res) {
         jQuery('#_hjErrorCount').append(res.messages.length);
+        showKnownIssues(res.messages);
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
         if (jQuery('form').length > res.source.code.match(/<form/g).length) {
           jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
