@@ -293,8 +293,11 @@
       var children = form[0].childElementCount;
       var ret = '<li><ul>' +
         ' <li><h5>JS Form ' + (jQuery('#_hjErrorShowMore ul li').length + 1) + '</h5></li>' +
-        ' <li><strong>ID:</strong>' + id + '</li>' +
-        ' <li><strong>Class:</strong>' + className + '</li>' +
+        ' <li><strong>ID:</strong>' + id + '</li>';
+      if (id !== 'none' && jQuery(id).length > 1) {
+        ret += '<li style="color: orange; font-weight: bold;">This ID is not unique!</li>';
+      }
+      ret += ' <li><strong>Class:</strong>' + className + '</li>' +
         ' <li><strong>Children:</strong>' + children + '</li>' +
         '</ul></li>';
       jQuery('#_hjErrorShowMore ul').append(ret);
