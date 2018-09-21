@@ -251,10 +251,11 @@
       var hasSubmit = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
       ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
-      ret += '<li><strong>ID:</strong> ' + showId + '</li>';
+      ret += '<li><strong>ID:</strong> ' + showId;
       if (showId !== 'none' && jQuery('[id="' + showId + '"]').length > 0) {
-        ret += '<li style="color: orange; font-weight: bold;">This ID is not unique!</li>';
+        ret += '<span style="color: orange; font-weight: bold;">This ID is not unique!</span>';
       }
+      ret += '</li >';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
       ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has an input of type submit</li>' : '<li style="color: red;">This form doesn\'t have an input of type submit. It may submit with Javascript!</li>';
