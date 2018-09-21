@@ -187,134 +187,132 @@
       ret += '<li><a href="#" class="_hjFormFieldAttributeButton">Show fields (' + e.field_info.length + ')</a></li>';
       ret += '</ul>';
     });
-    if (hjSiteSettings.forms.length == 0) {
-      ret = 'No forms yet<br />';
-      ret += showFormProblems();
-    }
-    return ret;
-  };
-  var showFormProblems = function () {
-    var ret = '';
-    ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
-      'Errors on page: <span id="_hjErrorCount"></span></div>' +
-      '<div>Forms on page: ' + jQuery('form').length + '</div>' +
-      listForms();
-    var formsInHTML = document.documentElement.outerHTML.match(/<form>/g) ? document.documentElement.outerHTML.match(/<form>/g).length : 0;
-    ret += '<div>Forms in original page source: ' + formsInHTML + '</div>';
-    getHTMLErrorCount();
-    return ret;
-  };
-  var listForms = function () {
-    var ret = '<ul>';
-    jQuery('form').each(function () {
-      var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
-      var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
-      var showInputs = jQuery(this).find('input').length;
-      ret += '<li><ul>';
-      ret += '<li>ID: ' + showId + '</li>';
-      ret += '<li>Class: ' + showClass + '</li>';
-      ret += '<li>Inputs: ' + showInputs + '</li>';
-      ret += '</li></ul>';
-    });
-    ret += '</ul>';
-    return ret;
+    ret += showFormProblems();
   }
-  var getHTMLErrorCount = function () {
-    jQuery.ajax({
-      url: getHTMLErrorLink('json'),
-      type: 'GET',
-      success: function (res) {
-        jQuery('#_hjErrorCount').append(res.messages.length);
-        if (res.messages.length > 0) {
-          jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
-        }
-      },
-      error: function () {
-        jQuery('#_hjErrorCount').append('unknown');
+  return ret;
+};
+var showFormProblems = function () {
+  var ret = '';
+  ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
+    'Errors on page: <span id="_hjErrorCount"></span></div>' +
+    '<div>Forms on page: ' + jQuery('form').length + '</div>' +
+    listForms();
+  var formsInHTML = document.documentElement.outerHTML.match(/<form>/g) ? document.documentElement.outerHTML.match(/<form>/g).length : 0;
+  ret += '<div>Forms in original page source: ' + formsInHTML + '</div>';
+  getHTMLErrorCount();
+  return ret;
+};
+var listForms = function () {
+  var ret = '<ul>';
+  jQuery('form').each(function () {
+    var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
+    var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
+    var showInputs = jQuery(this).find('input').length;
+    ret += '<li><ul>';
+    ret += '<li>ID: ' + showId + '</li>';
+    ret += '<li>Class: ' + showClass + '</li>';
+    ret += '<li>Inputs: ' + showInputs + '</li>';
+    ret += '</li></ul>';
+  });
+  ret += '</ul>';
+  return ret;
+}
+var getHTMLErrorCount = function () {
+  jQuery.ajax({
+    url: getHTMLErrorLink('json'),
+    type: 'GET',
+    success: function (res) {
+      jQuery('#_hjErrorCount').append(res.messages.length);
+      if (res.messages.length > 0) {
+        jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
       }
-    })
-  };
-  var getHTMLErrorLink = function (type = '') {
-    var doc = encodeURIComponent(window.location.href);
-    var url = 'https://validator.w3.org/nu/?doc=' + doc
-    if (type) url += '&out=' + type;
-    return url;
-  };
-  var getPollInfo = function () {
-    var ret = '';
-    jQuery(hjSiteSettings.polls).each(function (i, e) {
-      ret += '<ul>' +
-        '<li><h4>Poll ' + (i + 1) + '</h4></li>' +
-        '<li><strong>Id</strong>' + e.id + '</li>' +
-        '<li><strong>Disp. condition</strong>' + e.display_condition + '</li>' +
-        '<li><strong>Disp. delay</strong>' + e.display_delay + '</li>' +
-        '<li><strong>Show branding</strong>' + (e.effective_show_branding == true ? 'Yes' : 'No') + '</li>' +
-        '<li><strong>Language</strong>' + e.language + '</li>' +
-        '<li><strong>Position</strong>' + e.position + '</li>' +
-        '<li><strong>Skin</strong>' + e.skin + '</li>';
-      jQuery(e.targeting).each(function (fi, fe) {
-        ret += '<li><h5>Target ' + (fi + 1) + '</h5></li>' + displayTarget(fe);
-      });
-      jQuery(e.content.questions).each(function (fi, fe) {
-        ret += '<li class="_hjFormFieldAttribute"><h5>Question ' + (fi + 1) + '</h5></li>' +
-          '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.type + '</li>' +
-          '<li class="_hjFormFieldAttribute"><strong>Text</strong>' + fe.text + '</li>' +
-          '<li class="_hjFormFieldAttribute"><strong>Answers</strong><br /><ul>';
-        jQuery(fe.answers).each(function (ai, ae) {
-          ret += '<li class="_hjFormFieldAttribute">' + ae.text + '</li>';
-        });
-        ret += '</ul></li>' +
-          '<li class="_hjFormFieldAttribute"><strong>Labels</strong>' + fe.labels + '</li>';
-      });
-      ret += '<li><a href="#" class="_hjFormFieldAttributeButton">Show questions (' + e.content.questions.length + ')</a></li>';
-      ret += '</ul>';
-    });
-    if (hjSiteSettings.polls.length == 0) ret = 'No polls';
-    return ret;
-  };
-  var getSurveyInfo = function () {
-    var ret = '';
-    jQuery(hjSiteSettings.surveys).each(function (i, e) {
-      ret += '<ul>' +
-        '<li><h4>Survey ' + (i + 1) + '</h4></li>' +
-        '<li><strong>Disp. condition</strong>' + e.display_condition + '</li>' +
-        '<li><strong>Disp. delay</strong>' + e.display_delay + '</li>' +
-        '<li><strong>Show branding</strong>' + (e.effective_show_branding == true ? 'Yes' : 'No') + '</li>' +
-        '<li><strong>Language</strong>' + e.language + '</li>';
-      jQuery(e.targeting).each(function (fi, fe) {
-        ret += '<li><h5>Target ' + (fi + 1) + '</h5></li>' + displayTarget(fe);
-      });
-    });
-    ret += '</ul>';
-    if (hjSiteSettings.polls.length == 0) ret = 'No surveys';
-    return ret;
-  };
-  var getTesterInfo = function () {
-    var ret = '';
-    jQuery(hjSiteSettings.testers_widgets).each(function (i, e) {
-      ret += '<ul>' +
-        '<li><h4>Recruiter ' + (i + 1) + '</h4></li>' +
-        '<li><strong>Disp. condition</strong>' + e.display_condition + '</li>' +
-        '<li><strong>Disp. delay</strong>' + e.display_delay + '</li>' +
-        '<li><strong>Show branding</strong>' + (e.effective_show_branding == true ? 'Yes' : 'No') + '</li>' +
-        '<li><strong>Language</strong>' + e.language + '</li>' +
-        '<li><strong>Position</strong>' + e.position + '</li>' +
-        '<li><strong>Skin</strong>' + e.skin + '</li>';
-      jQuery(e.targeting).each(function (fi, fe) {
-        ret += '<li><h5>Target ' + (fi + 1) + '</h5></li>' + displayTarget(fe);
-      });
-    });
-    ret += '</ul>';
-    if (hjSiteSettings.testers_widgets.length == 0) ret = 'No recruiters';
-    return ret;
-  };
-
-  var displayTarget = function (target) {
-    var ret = '<li><strong>Component</strong>' + target.component + '</li>' +
-      '<li><strong>Match</strong>' + target.match_operation + ': ' + target.pattern + '</li>';
-    if (target.component == 'trigger') {
-      ret += '<li><a href="#" data-trigger="' + target.pattern + '" class="_hjTriggerLink">Run trigger</a></li>';
+    },
+    error: function () {
+      jQuery('#_hjErrorCount').append('unknown');
     }
-    return ret;
-  };
-})();
+  })
+};
+var getHTMLErrorLink = function (type = '') {
+  var doc = encodeURIComponent(window.location.href);
+  var url = 'https://validator.w3.org/nu/?doc=' + doc
+  if (type) url += '&out=' + type;
+  return url;
+};
+var getPollInfo = function () {
+  var ret = '';
+  jQuery(hjSiteSettings.polls).each(function (i, e) {
+    ret += '<ul>' +
+      '<li><h4>Poll ' + (i + 1) + '</h4></li>' +
+      '<li><strong>Id</strong>' + e.id + '</li>' +
+      '<li><strong>Disp. condition</strong>' + e.display_condition + '</li>' +
+      '<li><strong>Disp. delay</strong>' + e.display_delay + '</li>' +
+      '<li><strong>Show branding</strong>' + (e.effective_show_branding == true ? 'Yes' : 'No') + '</li>' +
+      '<li><strong>Language</strong>' + e.language + '</li>' +
+      '<li><strong>Position</strong>' + e.position + '</li>' +
+      '<li><strong>Skin</strong>' + e.skin + '</li>';
+    jQuery(e.targeting).each(function (fi, fe) {
+      ret += '<li><h5>Target ' + (fi + 1) + '</h5></li>' + displayTarget(fe);
+    });
+    jQuery(e.content.questions).each(function (fi, fe) {
+      ret += '<li class="_hjFormFieldAttribute"><h5>Question ' + (fi + 1) + '</h5></li>' +
+        '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.type + '</li>' +
+        '<li class="_hjFormFieldAttribute"><strong>Text</strong>' + fe.text + '</li>' +
+        '<li class="_hjFormFieldAttribute"><strong>Answers</strong><br /><ul>';
+      jQuery(fe.answers).each(function (ai, ae) {
+        ret += '<li class="_hjFormFieldAttribute">' + ae.text + '</li>';
+      });
+      ret += '</ul></li>' +
+        '<li class="_hjFormFieldAttribute"><strong>Labels</strong>' + fe.labels + '</li>';
+    });
+    ret += '<li><a href="#" class="_hjFormFieldAttributeButton">Show questions (' + e.content.questions.length + ')</a></li>';
+    ret += '</ul>';
+  });
+  if (hjSiteSettings.polls.length == 0) ret = 'No polls';
+  return ret;
+};
+var getSurveyInfo = function () {
+  var ret = '';
+  jQuery(hjSiteSettings.surveys).each(function (i, e) {
+    ret += '<ul>' +
+      '<li><h4>Survey ' + (i + 1) + '</h4></li>' +
+      '<li><strong>Disp. condition</strong>' + e.display_condition + '</li>' +
+      '<li><strong>Disp. delay</strong>' + e.display_delay + '</li>' +
+      '<li><strong>Show branding</strong>' + (e.effective_show_branding == true ? 'Yes' : 'No') + '</li>' +
+      '<li><strong>Language</strong>' + e.language + '</li>';
+    jQuery(e.targeting).each(function (fi, fe) {
+      ret += '<li><h5>Target ' + (fi + 1) + '</h5></li>' + displayTarget(fe);
+    });
+  });
+  ret += '</ul>';
+  if (hjSiteSettings.polls.length == 0) ret = 'No surveys';
+  return ret;
+};
+var getTesterInfo = function () {
+  var ret = '';
+  jQuery(hjSiteSettings.testers_widgets).each(function (i, e) {
+    ret += '<ul>' +
+      '<li><h4>Recruiter ' + (i + 1) + '</h4></li>' +
+      '<li><strong>Disp. condition</strong>' + e.display_condition + '</li>' +
+      '<li><strong>Disp. delay</strong>' + e.display_delay + '</li>' +
+      '<li><strong>Show branding</strong>' + (e.effective_show_branding == true ? 'Yes' : 'No') + '</li>' +
+      '<li><strong>Language</strong>' + e.language + '</li>' +
+      '<li><strong>Position</strong>' + e.position + '</li>' +
+      '<li><strong>Skin</strong>' + e.skin + '</li>';
+    jQuery(e.targeting).each(function (fi, fe) {
+      ret += '<li><h5>Target ' + (fi + 1) + '</h5></li>' + displayTarget(fe);
+    });
+  });
+  ret += '</ul>';
+  if (hjSiteSettings.testers_widgets.length == 0) ret = 'No recruiters';
+  return ret;
+};
+
+var displayTarget = function (target) {
+  var ret = '<li><strong>Component</strong>' + target.component + '</li>' +
+    '<li><strong>Match</strong>' + target.match_operation + ': ' + target.pattern + '</li>';
+  if (target.component == 'trigger') {
+    ret += '<li><a href="#" data-trigger="' + target.pattern + '" class="_hjTriggerLink">Run trigger</a></li>';
+  }
+  return ret;
+};
+}) ();
