@@ -282,7 +282,7 @@
       '<li><ul>' +
       knownIssuesPresent.map(function (issue) {
         return ('<li class="_hjSlide" data-formid="knownIssues" style="display: none; color: orange; font-weight: bold; margin-left: 10px;">' + issue + '</li>');
-      });
+      }).join('');
     ret += '</ul></li>';
     jQuery('#_hjKnownIssuesCount').after(ret);
   }
