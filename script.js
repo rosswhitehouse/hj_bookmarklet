@@ -278,7 +278,7 @@
         return ('<li>' + issue + '</li>');
       });
     ret += '</ul></li>';
-    jQuery('#hjKnownIssuesCount').after(ret);
+    jQuery('#_hjKnownIssuesCount').after(ret);
   }
 
   var checkSourceForForm = function (form, source) {
