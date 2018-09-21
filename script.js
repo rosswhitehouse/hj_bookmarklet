@@ -202,10 +202,12 @@
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
         '<li><strong>Sel. type</strong>' + e.selector_type + '</li>' +
         displayTarget(e.targeting[0]);
+      // check this page is the right one
       ret += '<li style="color: ';
       ret += isThisPage === 'yes' ? 'green' : 'red';
       ret += ';"><strong>Correct Page</strong>' + isThisPage + '</li>';
       ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none; font-weight: bold; color: orange;">This shows that the current page is the page that this form should be present on</li>';
+      // Check form is on this page
       ret += '<li style="color: ';
       ret += isPresent === 'yes' ? 'green' : 'red'
       ret += ';"><strong>Form is present</strong>' + isPresent + '</li>';
@@ -227,6 +229,8 @@
     ret += showFormProblems();
     return ret;
   };
+
+  // show forms laoded with JS and HTML errors
   var showFormProblems = function () {
     var ret = '';
     ret += '<ul>' +
@@ -242,6 +246,8 @@
     getHTMLErrorCount();
     return ret;
   };
+
+  // list all forms on page
   var listForms = function () {
     var ret = '<ul><li><h4>Page forms</h4></li>';
     jQuery('form').each(function (n) {
@@ -252,23 +258,29 @@
       ret += '<li><ul>';
       ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
       ret += '<li><strong>ID:</strong> ' + showId;
+      // is form ID unique
       if (showId !== 'none' && jQuery('[id="' + showId + '"]').length > 0) {
         ret += '<span style="color: orange; font-weight: bold; margin-left: 20px;">This ID is not unique!</span>';
       }
       ret += '</li >';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
+      // does form have a HTML input type="submit"
       ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has an input of type submit</li>' : '<li style="color: red;">This form doesn\'t have an input of type submit. It may submit with Javascript!</li>';
       ret += '</li></ul>';
     });
     ret += '</ul>';
     return ret;
   }
+
+  // Bank of known issues
   var knownIssues = [
     'Duplicate ID',
     'unclosed elements',
     'Stray end tag'
   ];
+
+  // Show any known issues that are present
   var showKnownIssues = function (errors) {
     var knownIssuesPresent = [];
     errors.forEach(function (error) {
@@ -288,6 +300,7 @@
     jQuery('#_hjKnownIssuesCount').after(ret);
   }
 
+  // check original source for a form
   var checkSourceForForm = function (form, source) {
     var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
@@ -305,6 +318,15 @@
     }
   }
 
+  // create link for ajax request
+  var getHTMLErrorLink = function (type = '') {
+    var doc = encodeURIComponent(window.location.href);
+    var url = 'https://validator.w3.org/nu/?doc=' + doc
+    if (type) url += '&out=' + type + '&showsource=true';
+    return url;
+  };
+
+  // ajax call to W3c Validator for HTML errors and original source
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
@@ -350,12 +372,7 @@
       }
     })
   };
-  var getHTMLErrorLink = function (type = '') {
-    var doc = encodeURIComponent(window.location.href);
-    var url = 'https://validator.w3.org/nu/?doc=' + doc
-    if (type) url += '&out=' + type + '&showsource=true';
-    return url;
-  };
+
   var getPollInfo = function () {
     var ret = '';
     jQuery(hjSiteSettings.polls).each(function (i, e) {
