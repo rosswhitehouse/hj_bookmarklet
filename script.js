@@ -173,11 +173,20 @@
   var getFormInfo = function () {
     var ret = '';
     jQuery(hjSiteSettings.forms).each(function (i, e) {
+      var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
+      var selector = e.selector_type === 'id' ? '#' : '.';
+      var isPresent = jQuery(selector + e.selector).length > 0 ? 'yes' : 'no';
       ret += '<ul>' +
         '<li><h4>Form ' + (i + 1) + '</h4></li>' +
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
         '<li><strong>Sel. type</strong>' + e.selector_type + '</li>' +
         displayTarget(e.targeting[0]);
+      ret += '<li style="color: ';
+      ret += isThisPage === 'yes' ? 'green' : 'red';
+      ret += ';"><strong>This page?</strong>' + isThisPage + '</li>';
+      ret += '<li style="color: ';
+      ret += isPresent === 'yes' ? 'green' : 'red'
+      ret += ';"><strong>Form on page?</strong>' + isPresent + '</li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
@@ -195,26 +204,28 @@
   };
   var showFormProblems = function () {
     var ret = '';
-    ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
-      'Errors on page: <span id="_hjErrorCount"></span></div>' +
-      '<div>Forms on page: ' + jQuery('form').length + '</div>' +
-      '<div>Forms in original source: <span id="_hjSourceForms"></span></div>' +
+    ret += '<ul><li><h4>HTML Errors</h4></li>' +
+      ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
+      ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
+      ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
+      ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
+      '</ul>' +
       listForms();
     getHTMLErrorCount();
     return ret;
   };
   var listForms = function () {
-    var ret = '<ul>';
+    var ret = '<ul><li><h4>Page forms</h4></li>';
     jQuery('form').each(function () {
       var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
       var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
       var showInputs = jQuery(this).find('input').length;
       var hasInput = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
-      ret += '<li>ID: ' + showId + '</li>';
-      ret += '<li>Class: ' + showClass + '</li>';
-      ret += '<li>Inputs: ' + showInputs + '</li>';
-      ret += '<li>Submit button: ' + hasInput + '</li>';
+      ret += '<li><strong>ID:</strong> ' + showId + '</li>';
+      ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
+      ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
+      ret += '<li><strong>Submit button:</strong> ' + hasInput + '</li>';
       ret += '</li></ul>';
     });
     ret += '</ul>';
@@ -227,6 +238,9 @@
       success: function (res) {
         jQuery('#_hjErrorCount').append(res.messages.length);
         jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
+        if (jQuery('form').length > res.source.code.match(/<form/g).length) {
+          jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
+        }
         if (res.messages.length > 0) {
           jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
         }
