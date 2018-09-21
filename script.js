@@ -272,10 +272,10 @@
       })
     })
     jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
-    var ret = '<li><a class="_hjButton" data-formid="knownIssues">Show known issues</a></li>' +
+    var ret = '<li><a href="#" class="_hjButton" data-formid="knownIssues">Show known issues</a></li>' +
       '<li><ul>' +
       knownIssuesPresent.map(function (issue) {
-        return ('<li class="_hjSlide" data-formid="knownIssues">' + issue + '</li>');
+        return ('<li class="_hjSlide" data-formid="knownIssues" style="display: none;">' + issue + '</li>');
       });
     ret += '</ul></li>';
     jQuery('#_hjKnownIssuesCount').after(ret);
