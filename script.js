@@ -219,6 +219,7 @@
 
       ret += '<li><a href="#" class="_hjFormFieldAttributeButton">Show fields (' + e.field_info.length + ')</a></li>';
       ret += '</ul>';
+      ret += '<hr />';
     });
     if (hjSiteSettings.forms.length == 0) {
       ret = 'No forms yet<br />';
@@ -231,10 +232,12 @@
     ret += '<ul>' +
       ' <li><h4>Forms Loaded with Javascript</h4></li>' +
       ' <li id="_hjJSFormError" style="color: red;"></li>' +
+      ' <hr />' +
       ' <li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
-      ' <li id="_hjKnownIssues" style="color: orange;"><h5 id="_hjKnownIssuesCount" style="font-weight: bold;"></h5></li>' +
+      ' <li id="_hjKnownIssues" style="color: orange; margin-left: 10px;"><h5 id="_hjKnownIssuesCount" style="font-weight: bold;"></h5></li>' +
       '</ul>' +
+      '<hr />' +
       listForms();
     getHTMLErrorCount();
     return ret;
