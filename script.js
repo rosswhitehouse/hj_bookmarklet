@@ -187,7 +187,10 @@
       ret += '<li><a href="#" class="_hjFormFieldAttributeButton">Show fields (' + e.field_info.length + ')</a></li>';
       ret += '</ul>';
     });
-    ret += showFormProblems();
+    if (hjSiteSettings.forms.length == 0) {
+      ret = 'No forms yet<br />';
+      ret += showFormProblems();
+    }
     return ret;
   };
   var showFormProblems = function () {
@@ -195,9 +198,8 @@
     ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
       'Errors on page: <span id="_hjErrorCount"></span></div>' +
       '<div>Forms on page: ' + jQuery('form').length + '</div>' +
+      '<div>Forms in original source: <span id="_hjSourceForms"></span></div>' +
       listForms();
-    var formsInHTML = document.documentElement.outerHTML.match(/<form>/g) ? document.documentElement.outerHTML.match(/<form>/g).length : 0;
-    ret += '<div>Forms in original page source: ' + formsInHTML + '</div>';
     getHTMLErrorCount();
     return ret;
   };
@@ -207,10 +209,12 @@
       var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
       var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
       var showInputs = jQuery(this).find('input').length;
+      var hasInput = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
       ret += '<li>ID: ' + showId + '</li>';
       ret += '<li>Class: ' + showClass + '</li>';
       ret += '<li>Inputs: ' + showInputs + '</li>';
+      ret += '<li>Submit button: ' + hasInput + '</li>';
       ret += '</li></ul>';
     });
     ret += '</ul>';
@@ -222,6 +226,7 @@
       type: 'GET',
       success: function (res) {
         jQuery('#_hjErrorCount').append(res.messages.length);
+        jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
         if (res.messages.length > 0) {
           jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
         }
@@ -234,7 +239,7 @@
   var getHTMLErrorLink = function (type = '') {
     var doc = encodeURIComponent(window.location.href);
     var url = 'https://validator.w3.org/nu/?doc=' + doc
-    if (type) url += '&out=' + type;
+    if (type) url += '&out=' + type + '&showsource=true';
     return url;
   };
   var getPollInfo = function () {
