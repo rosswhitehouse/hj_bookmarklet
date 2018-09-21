@@ -122,6 +122,19 @@
           }
 
         })
+
+        jQuery('._hjButton').click(function (e) {
+          e.preventDefault();
+          var data = jQuery(this).data('formid');
+          if (jQuery(this).text().indexOf('Show') >= 0) {
+            jQuery(this).parents('ul').find('._hjSlide[data-formid=' + data + ']').slideDown('fast');
+            jQuery(this).text(jQuery(this).text().replace('Show', 'Hide'));
+          } else {
+            jQuery(this).parents('ul').find('._hjSlide[data-formid=' + data + ']').slideUp('fast');
+            jQuery(this).text(jQuery(this).text().replace('Hide', 'Show'));
+          }
+
+        })
       }, 10);
 
     })();
@@ -191,10 +204,13 @@
         displayTarget(e.targeting[0]);
       ret += '<li style="color: ';
       ret += isThisPage === 'yes' ? 'green' : 'red';
-      ret += ';"><strong>This page?</strong>' + isThisPage + '</li>';
+      ret += ';"><strong>Correct Page</strong>' + isThisPage + '</li>';
+      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none; font-weight: bold; color: orange;">This shows that the current page is the page that this form should be present on</li>';
       ret += '<li style="color: ';
       ret += isPresent === 'yes' ? 'green' : 'red'
-      ret += ';"><strong>Form on page?</strong>' + isPresent + '</li>';
+      ret += ';"><strong>Form is present</strong>' + isPresent + '</li>';
+      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none; font-weight: bold; color: orange;">This shows whether this form is present on the page</li>';
+      ret += '<li><a href="#" class="_hjButton" data-formid="tooltip">Show help text</a></li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
@@ -225,16 +241,17 @@
   };
   var listForms = function () {
     var ret = '<ul><li><h4>Page forms</h4></li>';
-    jQuery('form').each(function () {
+    jQuery('form').each(function (n) {
       var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
       var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
       var showInputs = jQuery(this).find('input').length;
-      var hasInput = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
+      var hasSubmit = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
+      ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
       ret += '<li><strong>ID:</strong> ' + showId + '</li>';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
-      ret += '<li><strong>Submit button:</strong> ' + hasInput + '</li>';
+      ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has an input of type submit</li>' : '<li style="color: red;">This form doesn\'t have an input of type submit. It may submit with Javascript!</li>';
       ret += '</li></ul>';
     });
     ret += '</ul>';
@@ -257,7 +274,7 @@
     jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
   }
 
-  var checkSourceForForm = function (form, n, source) {
+  var checkSourceForForm = function (form, source) {
     var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
     if (!sourceStripped.includes(formStripped)) {
@@ -265,7 +282,7 @@
       var className = form[0].className !== '' ? form[0].className : 'none';
       var children = form[0].childElementCount;
       var ret = '<li><ul>' +
-        ' <li><h5>Form ' + (n + 1) + '</h5></li>' +
+        ' <li><h5>JS Form ' + (jQuery('#_hjErrorShowMore ul li').length + 1) + '</h5></li>' +
         ' <li><strong>ID:</strong>' + id + '</li>' +
         ' <li><strong>Class:</strong>' + className + '</li>' +
         ' <li><strong>Children:</strong>' + children + '</li>' +
@@ -310,7 +327,7 @@
             }
           })
           jQuery('form').each(function (n) {
-            checkSourceForForm(jQuery(this), n, res.source.code);
+            checkSourceForForm(jQuery(this), res.source.code);
           })
         }
       },
