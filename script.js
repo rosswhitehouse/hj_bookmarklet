@@ -123,7 +123,7 @@
 
         })
 
-        jQuery('._hjButton').on('click', function (e) {
+        jQuery('body').on('click', '#_hjButton', function (e) {
           e.preventDefault();
           var data = jQuery(this).data('formid');
           if (jQuery(this).text().indexOf('Show') >= 0) {
@@ -271,7 +271,7 @@
         }
       })
     })
-    jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' k nown issues');
+    jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
     var ret = '<li><a href="#" class="_hjButton" data-formid="knownIssues">Show known issues</a></li>' +
       '<li><ul>' +
       knownIssuesPresent.map(function (issue) {
