@@ -179,9 +179,6 @@
         case 'id':
           selector = '#' + selector;
           break;
-        case 'class':
-          selector = '.' + selector;
-          break;
         case 'css':
           selector = selector.substr(2);
           break;
@@ -215,12 +212,12 @@
   };
   var showFormProblems = function () {
     var ret = '';
-    ret += '<ul><li><h4>HTML Errors</h4></li>' +
+    ret += '<ul>' +
+      ' <li><h4>Forms Loaded with Javascript</h4></li>' +
+      ' <li id="_hjJSFormError" style="color: red;"></li>' +
+      ' <li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
-      ' <li id="_hjKnownIssues"><h4 id="_hjKnownIssuesCount"></h4></li>' +
-      ' <li><strong>Source forms:</strong> <span id="_hjSourceForms"></span></li>' +
-      ' <li><strong>Page forms:</strong> ' + jQuery('form').length + '</li>' +
-      ' <li id="_hjJSFormError" style="color: red; line-height: 1em;"></li>' +
+      ' <li id="_hjKnownIssues"><h3 id="_hjKnownIssuesCount"></h4></li>' +
       '</ul>' +
       listForms();
     getHTMLErrorCount();
@@ -259,19 +256,62 @@
     })
     jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
   }
+
+  var checkSourceForForm = function (form, n, source) {
+    var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
+    var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
+    if (!sourceStripped.includes(formStripped)) {
+      var id = form[0].id !== '' ? form[0].id : 'none';
+      var className = form[0].className !== '' ? form[0].className : 'none';
+      var children = form[0].childElementCount;
+      var ret = '<li><ul>' +
+        ' <li><h5>Form ' + (n + 1) + '</h5></li>' +
+        ' <li><strong>ID:</strong>' + id + '</li>' +
+        ' <li><strong>Class:</strong>' + className + '</li>' +
+        ' <li><strong>Children:</strong>' + children + '</li>' +
+        '</ul></li>';
+      jQuery('#_hjErrorShowMore ul').append(ret);
+    }
+  }
+
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
       type: 'GET',
       success: function (res) {
+        // HTML errors
         jQuery('#_hjErrorCount').append(res.messages.length);
         showKnownIssues(res.messages);
-        jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
-        if (jQuery('form').length > res.source.code.match(/<form/g).length) {
-          jQuery('#_hjJSFormError').append('Some forms on this page may be rendered via Javascript!');
-        }
         if (res.messages.length > 0) {
           jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
+        }
+        // forms added by JS
+        jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
+        if (jQuery('form').length > res.source.code.match(/<form/g).length) {
+          var formDiff = jQuery('form').length - res.source.code.match(/<form/g).length;
+          var ret = formDiff;
+          ret += formDiff === 1 ? ' form' : ' forms';
+          ret += ' on this page ';
+          ret += formDiff === 1 ? 'isn\'t' : 'aren\'t';
+          ret += ' in the source. ';
+          ret += formDiff === 1 ? 'It' : 'They';
+          ret += ' may be rendered via Javascript!';
+          jQuery('#_hjJSFormError').append(ret);
+          jQuery('#_hjJSFormError').after('<li id="_hjErrorShowMore"><a href="#">Show JS-loaded forms</a></li>');
+          jQuery('#_hjErrorShowMore').prepend('<ul style="display: none;"></ul>');
+          jQuery('#_hjErrorShowMore a').click(function (e) {
+            e.preventDefault();
+            if (jQuery(this).text().indexOf('Show') >= 0) {
+              jQuery(this).parents('li').find('ul').slideDown('fast');
+              jQuery(this).text(jQuery(this).text().replace('Show', 'Hide'));
+            } else {
+              jQuery(this).parents('li').find('ul').slideUp('fast');
+              jQuery(this).text(jQuery(this).text().replace('Hide', 'Show'));
+            }
+          })
+          jQuery('form').each(function (n) {
+            checkSourceForForm(jQuery(this), n, res.source.code);
+          })
         }
       },
       error: function () {
