@@ -233,7 +233,7 @@
       ' <li id="_hjJSFormError" style="color: red;"></li>' +
       ' <li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
-      ' <li id="_hjKnownIssues"><h3 id="_hjKnownIssuesCount"></h4></li>' +
+      ' <li id="_hjKnownIssues"><h5 id="_hjKnownIssuesCount"></h5></li>' +
       '</ul>' +
       listForms();
     getHTMLErrorCount();
@@ -272,6 +272,13 @@
       })
     })
     jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
+    var ret = '<li><a>Show known issues</a></li>' +
+      '<li><ul>' +
+      knownIssuesPresent.map(function (issue) {
+        return ('<li>' + issue + '</li>');
+      });
+    ret += '</ul></li>';
+    jQuery('#hjKnownIssuesCount').after(ret);
   }
 
   var checkSourceForForm = function (form, source) {
