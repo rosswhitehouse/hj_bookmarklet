@@ -123,7 +123,7 @@
 
         })
 
-        jQuery('._hjButton').click(function (e) {
+        jQuery('body').on('click', '._hjButton', function (e) {
           e.preventDefault();
           var data = jQuery(this).data('formid');
           if (jQuery(this).text().indexOf('Show') >= 0) {
@@ -223,6 +223,7 @@
     if (hjSiteSettings.forms.length == 0) {
       ret = 'No forms yet<br />';
     }
+    ret += '<hr />';
     ret += showFormProblems();
     return ret;
   };
@@ -231,10 +232,12 @@
     ret += '<ul>' +
       ' <li><h4>Forms Loaded with Javascript</h4></li>' +
       ' <li id="_hjJSFormError" style="color: red;"></li>' +
+      ' <hr />' +
       ' <li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
-      ' <li id="_hjKnownIssues"><h3 id="_hjKnownIssuesCount"></h4></li>' +
+      ' <li id="_hjKnownIssues"><h5 id="_hjKnownIssuesCount" style="font-weight: bold; color: orange; font-weight: bold;"></h5></li>' +
       '</ul>' +
+      '<hr />' +
       listForms();
     getHTMLErrorCount();
     return ret;
@@ -248,7 +251,11 @@
       var hasSubmit = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
       ret += '<li><ul>';
       ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
-      ret += '<li><strong>ID:</strong> ' + showId + '</li>';
+      ret += '<li><strong>ID:</strong> ' + showId;
+      if (showId !== 'none' && jQuery('[id="' + showId + '"]').length > 0) {
+        ret += '<span style="color: orange; font-weight: bold; margin-left: 20px;">This ID is not unique!</span>';
+      }
+      ret += '</li >';
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
       ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
       ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has an input of type submit</li>' : '<li style="color: red;">This form doesn\'t have an input of type submit. It may submit with Javascript!</li>';
@@ -272,6 +279,13 @@
       })
     })
     jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
+    var ret = '<li><a href="#" class="_hjButton" data-formid="knownIssues">Show known issues</a></li>' +
+      '<li><ul>' +
+      knownIssuesPresent.map(function (issue) {
+        return ('<li class="_hjSlide" data-formid="knownIssues" style="display: none; color: orange; font-weight: bold; margin-left: 10px;">' + issue + '</li>');
+      }).join('');
+    ret += '</ul></li>';
+    jQuery('#_hjKnownIssuesCount').after(ret);
   }
 
   var checkSourceForForm = function (form, source) {
