@@ -122,19 +122,6 @@
           }
 
         })
-
-        jQuery('body').on('click', '._hjButton', function (e) {
-          e.preventDefault();
-          var data = jQuery(this).data('formid');
-          if (jQuery(this).text().indexOf('Show') >= 0) {
-            jQuery(this).parents('ul').find('._hjSlide[data-formid=' + data + ']').slideDown('fast');
-            jQuery(this).text(jQuery(this).text().replace('Show', 'Hide'));
-          } else {
-            jQuery(this).parents('ul').find('._hjSlide[data-formid=' + data + ']').slideUp('fast');
-            jQuery(this).text(jQuery(this).text().replace('Hide', 'Show'));
-          }
-
-        })
       }, 10);
 
     })();
@@ -186,31 +173,11 @@
   var getFormInfo = function () {
     var ret = '';
     jQuery(hjSiteSettings.forms).each(function (i, e) {
-      var isThisPage = e.targeting[0].pattern === window.location.href ? 'yes' : 'no';
-      var selector = e.selector;
-      switch (e.selector_type) {
-        case 'id':
-          selector = '#' + selector;
-          break;
-        case 'css':
-          selector = selector.substr(2);
-          break;
-      }
-      var isPresent = jQuery(selector).length > 0 ? 'yes' : 'no';
       ret += '<ul>' +
         '<li><h4>Form ' + (i + 1) + '</h4></li>' +
         '<li><strong>Selector</strong>' + e.selector + '</li>' +
         '<li><strong>Sel. type</strong>' + e.selector_type + '</li>' +
         displayTarget(e.targeting[0]);
-      ret += '<li style="color: ';
-      ret += isThisPage === 'yes' ? 'green' : 'red';
-      ret += ';"><strong>Correct Page</strong>' + isThisPage + '</li>';
-      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none; font-weight: bold; color: orange;">This shows that the current page is the page that this form should be present on</li>';
-      ret += '<li style="color: ';
-      ret += isPresent === 'yes' ? 'green' : 'red'
-      ret += ';"><strong>Form is present</strong>' + isPresent + '</li>';
-      ret += '<li class="_hjSlide" data-formid="tooltip" style="display: none; font-weight: bold; color: orange;">This shows whether this form is present on the page</li>';
-      ret += '<li><a href="#" class="_hjButton" data-formid="tooltip">Show help text</a></li>';
       jQuery(e.field_info).each(function (fi, fe) {
         ret += '<li class="_hjFormFieldAttribute"><h5>Field ' + (fi + 1) + '</h5></li>' +
           '<li class="_hjFormFieldAttribute"><strong>Type</strong>' + fe.field_type + '</li>' +
@@ -222,127 +189,25 @@
     });
     if (hjSiteSettings.forms.length == 0) {
       ret = 'No forms yet<br />';
+      ret += showFormProblems();
     }
-    ret += '<hr />';
-    ret += showFormProblems();
     return ret;
   };
   var showFormProblems = function () {
     var ret = '';
-    ret += '<ul>' +
-      ' <li><h4>Forms Loaded with Javascript</h4></li>' +
-      ' <li id="_hjJSFormError" style="color: red;"></li>' +
-      ' <hr />' +
-      ' <li><h4>HTML Errors</h4></li>' +
-      ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
-      ' <li id="_hjKnownIssues"><h5 id="_hjKnownIssuesCount" style="font-weight: bold; color: orange; font-weight: bold;"></h5></li>' +
-      '</ul>' +
-      '<hr />' +
-      listForms();
+    ret += '<div id="_hjHTMLErrors">HTML Errors:<br />' +
+      'There are <span id="_hjErrorCount"></span> errors on this page.</div>';
     getHTMLErrorCount();
     return ret;
   };
-  var listForms = function () {
-    var ret = '<ul><li><h4>Page forms</h4></li>';
-    jQuery('form').each(function (n) {
-      var showId = jQuery(this).attr('id') ? jQuery(this).attr('id') : 'none';
-      var showClass = jQuery(this).hasClass() ? jQuery(this).attr('class') : 'none';
-      var showInputs = jQuery(this).find('input').length;
-      var hasSubmit = jQuery(this).find('input[type="submit"]').length > 0 ? 'yes' : 'no';
-      ret += '<li><ul>';
-      ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
-      ret += '<li><strong>ID:</strong> ' + showId;
-      if (showId !== 'none' && jQuery('[id="' + showId + '"]').length > 0) {
-        ret += '<span style="color: orange; font-weight: bold; margin-left: 20px;">This ID is not unique!</span>';
-      }
-      ret += '</li >';
-      ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
-      ret += '<li><strong>Inputs:</strong> ' + showInputs + '</li>';
-      ret += hasSubmit === 'yes' ? '<li style="color: green;">This form has an input of type submit</li>' : '<li style="color: red;">This form doesn\'t have an input of type submit. It may submit with Javascript!</li>';
-      ret += '</li></ul>';
-    });
-    ret += '</ul>';
-    return ret;
-  }
-  var knownIssues = [
-    'Duplicate ID',
-    'unclosed elements',
-    'Stray end tag'
-  ];
-  var showKnownIssues = function (errors) {
-    var knownIssuesPresent = [];
-    errors.forEach(function (error) {
-      knownIssues.forEach(function (issue) {
-        if (error.message.includes(issue)) {
-          knownIssuesPresent.push(error.message);
-        }
-      })
-    })
-    jQuery('#_hjKnownIssuesCount').append(knownIssuesPresent.length + ' known issues');
-    var ret = '<li><a href="#" class="_hjButton" data-formid="knownIssues">Show known issues</a></li>' +
-      '<li><ul>' +
-      knownIssuesPresent.map(function (issue) {
-        return ('<li class="_hjSlide" data-formid="knownIssues" style="display: none; color: orange; font-weight: bold; margin-left: 10px;">' + issue + '</li>');
-      }).join('');
-    ret += '</ul></li>';
-    jQuery('#_hjKnownIssuesCount').after(ret);
-  }
-
-  var checkSourceForForm = function (form, source) {
-    var sourceStripped = source.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
-    var formStripped = form[0].outerHTML.replace(/\s/g, '').replace(/\r/g, '').replace(/\s\n/g, '').replace(/\//g, '');
-    if (!sourceStripped.includes(formStripped)) {
-      var id = form[0].id !== '' ? form[0].id : 'none';
-      var className = form[0].className !== '' ? form[0].className : 'none';
-      var children = form[0].childElementCount;
-      var ret = '<li><ul>' +
-        ' <li><h5>JS Form ' + (jQuery('#_hjErrorShowMore ul li').length + 1) + '</h5></li>' +
-        ' <li><strong>ID:</strong>' + id + '</li>' +
-        ' <li><strong>Class:</strong>' + className + '</li>' +
-        ' <li><strong>Children:</strong>' + children + '</li>' +
-        '</ul></li>';
-      jQuery('#_hjErrorShowMore ul').append(ret);
-    }
-  }
-
   var getHTMLErrorCount = function () {
     jQuery.ajax({
       url: getHTMLErrorLink('json'),
       type: 'GET',
       success: function (res) {
-        // HTML errors
         jQuery('#_hjErrorCount').append(res.messages.length);
-        showKnownIssues(res.messages);
         if (res.messages.length > 0) {
-          jQuery('#_hjHTMLErrors').append('<br /><a href="' + getHTMLErrorLink() + '">See errors here</a>');
-        }
-        // forms added by JS
-        jQuery('#_hjSourceForms').append(res.source.code.match(/<form/g).length);
-        if (jQuery('form').length > res.source.code.match(/<form/g).length) {
-          var formDiff = jQuery('form').length - res.source.code.match(/<form/g).length;
-          var ret = formDiff;
-          ret += formDiff === 1 ? ' form' : ' forms';
-          ret += ' on this page ';
-          ret += formDiff === 1 ? 'isn\'t' : 'aren\'t';
-          ret += ' in the source. ';
-          ret += formDiff === 1 ? 'It' : 'They';
-          ret += ' may be rendered via Javascript!';
-          jQuery('#_hjJSFormError').append(ret);
-          jQuery('#_hjJSFormError').after('<li id="_hjErrorShowMore"><a href="#">Show JS-loaded forms</a></li>');
-          jQuery('#_hjErrorShowMore').prepend('<ul style="display: none;"></ul>');
-          jQuery('#_hjErrorShowMore a').click(function (e) {
-            e.preventDefault();
-            if (jQuery(this).text().indexOf('Show') >= 0) {
-              jQuery(this).parents('li').find('ul').slideDown('fast');
-              jQuery(this).text(jQuery(this).text().replace('Show', 'Hide'));
-            } else {
-              jQuery(this).parents('li').find('ul').slideUp('fast');
-              jQuery(this).text(jQuery(this).text().replace('Hide', 'Show'));
-            }
-          })
-          jQuery('form').each(function (n) {
-            checkSourceForForm(jQuery(this), res.source.code);
-          })
+          jQuery('#_hjHTMLErrors').append('<a href="' + getHTMLErrorLink() + '">See errors here</a>');
         }
       },
       error: function () {
@@ -353,7 +218,7 @@
   var getHTMLErrorLink = function (type = '') {
     var doc = encodeURIComponent(window.location.href);
     var url = 'https://validator.w3.org/nu/?doc=' + doc
-    if (type) url += '&out=' + type + '&showsource=true';
+    if (type) url += '&out=' + type;
     return url;
   };
   var getPollInfo = function () {
