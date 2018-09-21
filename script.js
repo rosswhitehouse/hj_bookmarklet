@@ -123,7 +123,7 @@
 
         })
 
-        jQuery('body').on('click', '#_hjButton', function (e) {
+        jQuery('body').on('click', '._hjButton', function (e) {
           e.preventDefault();
           var data = jQuery(this).data('formid');
           if (jQuery(this).text().indexOf('Show') >= 0) {
