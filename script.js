@@ -235,7 +235,7 @@
       ' <hr />' +
       ' <li><h4>HTML Errors</h4></li>' +
       ' <li id="_hjHTMLErrors"><strong>Errors:</strong> <span id="_hjErrorCount"></span></li>' +
-      ' <li id="_hjKnownIssues" style="color: orange; margin-left: 10px;"><h5 id="_hjKnownIssuesCount" style="font-weight: bold;"></h5></li>' +
+      ' <li id="_hjKnownIssues"><h5 id="_hjKnownIssuesCount" style="font-weight: bold; color: orange; font-weight: bold;"></h5></li>' +
       '</ul>' +
       '<hr />' +
       listForms();
@@ -278,7 +278,7 @@
     var ret = '<li><a href="#" class="_hjButton" data-formid="knownIssues">Show known issues</a></li>' +
       '<li><ul>' +
       knownIssuesPresent.map(function (issue) {
-        return ('<li class="_hjSlide" data-formid="knownIssues" style="display: none;">' + issue + '</li>');
+        return ('<li class="_hjSlide" data-formid="knownIssues" style="display: none; color: orange; font-weight: bold; margin-left: 10px;">' + issue + '</li>');
       });
     ret += '</ul></li>';
     jQuery('#_hjKnownIssuesCount').after(ret);
