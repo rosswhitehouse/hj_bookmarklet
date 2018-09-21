@@ -252,7 +252,7 @@
       ret += '<li><ul>';
       ret += '<li><h5>Form ' + (n + 1) + '</h5></li>';
       ret += '<li><strong>ID:</strong> ' + showId + '</li>';
-      if (showId !== 'none' && jQuery('#' + showId).length > 1) {
+      if (showId !== 'none' && jQuery('#' + showId).length > 0) {
         ret += '<li style="color: orange; font-weight: bold;">This ID is not unique!</li>';
       }
       ret += '<li><strong>Class:</strong> ' + showClass + '</li>';
